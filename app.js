@@ -4,12 +4,143 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
-
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
-
 const render = require("./lib/htmlRenderer");
+let allEmployees = [];
+//possible prompt solution
 
+function promptUser() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "name",
+        message: "What is your name?",
+      },
+      {
+        type: "input",
+        name: "id",
+        Message: "What is your id number?",
+      },
+      {
+        type: "input",
+        name: "Email",
+        message: "What is your Email?",
+      },
+      {
+        type: "input",
+        name: "officenumber",
+        message: "What is your office number?",
+      },
+    ])
+    .then((answers) => {
+      const manager = new Manager(
+        answers.name,
+        answers.id,
+        answers.Email,
+        answers.officenumber
+      );
+      allEmployees.push(manager);
+      function addTeamMember() {
+        inquirer
+
+          .prompt([
+            {
+              type: "rawlist",
+              name: "question",
+              message: "Would you like add another team member?",
+              choices: ["Engineer", "Intern", "Exit"],
+            },
+          ])
+          .then(function (answers) {
+            if (answers.question === "Engineer") {
+              inquirer
+                .prompt([
+                  {
+                    type: "input",
+                    name: "name",
+                    message: "What is your name?",
+                  },
+                  {
+                    type: "input",
+                    name: "id",
+                    Message: "What is your id number?",
+                  },
+                  {
+                    type: "input",
+                    name: "Email",
+                    message: "What is your Email?",
+                  },
+                  {
+                    type: "input",
+                    name: "Github",
+                    message: "what is your github account?",
+                  },
+                ])
+                .then((answers) => {
+                  const engineer = new Engineer(
+                    answers.name,
+                    answers.id,
+                    answers.email,
+                    answers.github
+                  );
+                  allEmployees.push(engineer);
+                  addTeamMember();
+                })
+                .then(() => {
+                  createHtmlFile();
+                });
+            } else if (answers.question === "Intern") {
+              inquirer
+                .prompt([
+                  {
+                    type: "input",
+                    name: "name",
+                    message: "What is your name?",
+                  },
+                  {
+                    type: "input",
+                    name: "id",
+                    Message: "What is your id number?",
+                  },
+                  {
+                    type: "input",
+                    name: "Email",
+                    message: "What is your Email?",
+                  },
+                  {
+                    type: "input",
+                    name: "school",
+                    message: "What is your current college?",
+                  },
+                ])
+                .then((answers) => {
+                  const intern = new Intern(
+                    answers.name,
+                    answers.id,
+                    answers.email,
+                    answers.school
+                  );
+                  allEmployees.push(intern);
+                  addTeamMember();
+                });
+            } else if (answers.question === "Exit") {
+              createHtmlFile();
+            }
+          });
+      }
+      addTeamMember();
+    });
+}
+
+function createHtmlFile() {
+  if (!fs.existsSync(OUTPUT_DIR)) {
+    fs.mkdirSync(OUTPUT_DIR);
+  }
+  fs.writeFileSync(outputPath, render(allEmployees));
+}
+promptUser();
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
