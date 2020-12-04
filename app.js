@@ -6,7 +6,7 @@ const path = require("path");
 const fs = require("fs");
 const util = require("util");
 
-// File Creation
+// Create the file
 const mkDir = util.promisify(fs.mkdir);
 const writeFile = util.promisify(fs.writeFile);
 
@@ -15,7 +15,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-// Questions Array
+// Array of questions to gather employee information
 const questions = [
   { name: "name", message: "What is the employee's name?" },
   { name: "id", message: "What's the employee's ID?" },
@@ -49,7 +49,7 @@ const confirm = [
   },
 ];
 
-// Function that runs the inquirer prompts and pushes collected information to employees array
+// Run the inquirer prompts and push collected information to employees array
 const start = async () => {
   const employees = [];
   let newEmployee = true;
