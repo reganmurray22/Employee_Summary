@@ -12,6 +12,9 @@ so that I have quick access to emails and GitHub profiles
 ## Usage
 To use this application, run "node app.js" in your terminal to prompt the questions to begin. You will then have the option to enter as many employees as you wish or to exit the application. The questions will prompt the user to enter the revelent information based on the chosen employee designation.  When the user is finished, they can exit the CLI and the application will use the entered information to render an HTML file displaying the employee roster.
 
+## Demo
+![Employee_Summary_Gif](./output/assets/Employee_Summary_Gif.gif)
+
 ## Images
 ![Employee Summary HTML_Render](./output/assets/images/team.png)
 ![Employee Summary Test](./output/assets/images/test.png)
